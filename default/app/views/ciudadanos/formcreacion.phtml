@@ -1,0 +1,155 @@
+<?php echo view::content() ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            <h2 class="text-red col-md-12">CIUDADANOS</h2>
+            <?php echo Form::open("ciudadanos/formcreacion/".$ciudadano->id,'post') ?>
+	            <div class="box-body">
+	                <div class="row">
+	                	<div class="col-md-4">
+	                		<label>Nombre</label>
+	                		<input class="form-control mayuscula" type="text" name="ciudadano[nombre]" value="<?php echo isset($ciudadano)?$ciudadano->nombre:'' ?>" required>
+	                		<input type="text" name="idciudadano" value="<?php echo isset($ciudadano)?$ciudadano->id:'' ?>" hidden>
+	                	</div>
+	                	<div class="col-md-3">
+	                		<label>Apellido paterno</label>
+	                		<input class="form-control mayuscula" type="text" name="ciudadano[paterno]" value="<?php echo isset($ciudadano)?$ciudadano->paterno:'' ?>" required>
+	                	</div>
+	                	<div class="col-md-3">
+	                		<label>Apellido materno</label>                	
+	                		<input class="form-control mayuscula" type="text" name="ciudadano[materno]" value="<?php echo isset($ciudadano)?$ciudadano->materno:'' ?>">	
+	                	</div>
+	                	<div class="col-md-2">
+							<label>Fecha nacimiento</label>
+							<input class="form-control calendario" type="text" name="ciudadano[fechanacimiento]" value="<?php echo ($ciudadano->fechanacimiento!=null)?date_format(date_create($ciudadano->fechanacimiento),'d-m-Y'):'';  ?>" required>                		
+	                	</div>
+	                </div><br>
+	                <div class="row">	                	
+	                	<div class="col-md-6">
+	                		<label>Lugar nacimiento</label>
+	                		<input class="form-control mayuscula" type="text" name="ciudadano[lugarnacimiento]" value="<?php echo isset($ciudadano)?$ciudadano->lugarnacimiento:'' ?>">
+	                	</div>
+	                	<div class="col-md-4">
+	      					 <label>Calle domicilio</label>         		
+	      					 <input class="form-control mayuscula" type="text" name="ciudadano[calledomicilio]" value="<?php echo isset($ciudadano)?$ciudadano->calledomicilio:'' ?>">
+	                	</div>
+	                	<div class="col-md-2">
+	                		<label>Numero</label>
+	                		<input class="form-control num" type="number" name="ciudadano[numerodomicilio]" value="<?php echo isset($ciudadano)?$ciudadano->numerodomicilio:'' ?>">
+	                	</div>
+	                </div><br>
+	                <div class="row">
+	                	<div class="col-md-6">
+	                		<label>Residencia</label>
+	                		<input class="form-control mayuscula" type="text" name="ciudadano[residencia]" value="<?php echo isset($ciudadano)?$ciudadano->residencia:'' ?>">
+	                	</div>
+	                	<div class="col-md-2">
+	                		<label>Sexo</label>
+	                		<select class="form-control" name="ciudadano[sexo]" required>
+	                			<option value="" <?php echo isset($ciudadano)?($ciudadano->sexo==''?'selected':''):''?> >SELECCIONE</option>
+	                			<option value="M" <?php echo isset($ciudadano)?($ciudadano->sexo=='M'?'selected':''):''?> >MASCULINO</option>
+	                			<option value="F"  <?php echo isset($ciudadano)?($ciudadano->sexo=='F'?'selected':''):''?> >FEMENINO</option>
+	                		</select>
+	                	</div>
+	                	<div class="col-md-4">
+	                		<label>Lengua Materna</label>
+	                		<?php echo Form::dbSelect('ciudadano.lenguamaterna','dialecto',array('dialectos','listar'),'SELECCIONE','class="form-control selectpicker" data-live-search="true"', isset($ciudadano)?$ciudadano->dialectos_id:''); ?>	                		
+	                	</div>
+	                </div><br>
+	                <div class="row">
+	                	<div class="col-md-4">
+	                		<label>Ocupacion</label>
+	                		<input class="form-control mayuscula" type="text" name="ciudadano[ocupacion]" value="<?php echo isset($ciudadano)?$ciudadano->ocupacion:'' ?>">
+	                	</div>
+	                	<div class="col-md-4">
+	                		<label>Grado de estudios</label>
+	                		<?php echo Form::dbSelect('ciudadano.escolaridad','escolaridad',array('escolaridades','listar'),'SELECCIONE','class="form-control selectpicker" data-live-search="true"', isset($ciudadano)?$ciudadano->escolaridades_id:''); ?>
+	                	</div>
+	                	<div class="col-md-4">
+	                		<label>Estado civil</label>
+	                		<?php echo Form::dbSelect('ciudadano.edocivil','estado',array('edociviles','listar'),'SELECCIONE','class="form-control selectpicker" data-live-search="true"', isset($ciudadano)?$ciudadano->edociviles_id:''); ?>
+	                	</div>
+	                </div><br>
+	                <div class="complemento">
+		                <div class="row">
+		                	<div  class="col-md-12">
+			                	<div class="col-md-4">
+			                		<label>Fecha casado</label>
+			                		<input class="form-control calendario" type="text" name="ciudadano[fechacasado]" value="<?php echo ($ciudadano->fechacasado!=null)?date_format(date_create($ciudadano->fechacasado),'d-m-Y'):'';  ?>" >
+			                	</div>
+			                	<div class="col-md-4">
+			                		<label>Fecha ciudadano</label>
+			                		<input class="form-control calendario" type="text" name="ciudadano[fechaciudadano]" value="<?php echo ($ciudadano->fechaciudadano!=null)?date_format(date_create($ciudadano->fechaciudadano),'d-m-Y'):'';  ?>">
+			                	</div>
+			                	<div class="col-md-4">
+			                		<label>Fecha de adquisicion de predio</label>
+			                		<input class="form-control calendario" type="text" name="ciudadano[fechapredio]" value="<?php echo ($ciudadano->fechapredio!=null)?date_format(date_create($ciudadano->fechapredio),'d-m-Y'):'';  ?>">
+			                	</div>
+			                </div>
+		                </div><br>
+		            </div>
+	                <div class="row">
+	                	<div class="col-md-2">
+	                		<label>Servicio agua</label>
+	                		<select class="form-control" name="ciudadano[servicioagua]" id="agua" >
+	                			<option value="0" <?php echo isset($ciudadano)? ($ciudadano->servicioagua=='0'?'selected':'') : '' ?>>NO</option>	
+	                			<option value="1" <?php echo isset($ciudadano)? ($ciudadano->servicioagua=='1'?'selected':'') : '' ?>>SI</option>
+	                		</select>
+	                	</div>
+	                	<div class="col-md-8">
+	                		<label>Nombre del responsable de la toma de agua</label>
+	                		<input class="form-control mayuscula" type="text" name="ciudadano[nombretomaagua]" id="resagua" value="<?php echo isset($ciudadano)?$ciudadano->nombretomaagua:'' ?>" readonly>
+	                	</div>
+	                </div>
+	                <div class="row">
+	                  	<div class="col-md-2">
+	                		<label>Servicio panteon</label>
+	                		<select class="form-control" name="ciudadano[serviciopanteon]" id="panteon">
+	                			<option value="0" <?php echo isset($ciudadano)? ($ciudadano->serviciopanteon=='0'?'selected':'') : '' ?>>NO</option>
+	                			<option value="1" <?php echo isset($ciudadano)? ($ciudadano->serviciopanteon=='1'?'selected':'') : '' ?>>SI</option>
+	                		</select>
+	                	</div>
+	                  	<div class="col-md-8">
+	                		<label>Nombre del responsable panteón</label>
+	                		<input class="form-control mayuscula" type="text" name="ciudadano[nombreresponsable]" id="respanteon" value="<?php echo isset($ciudadano)?$ciudadano->nombreresponsable:'' ?>" readonly>
+	                	</div>
+	                </div><br>
+	                <div class="row">
+	                	<div class="col-md-3">
+	                		<label>Servicio salud</label>
+	                		<?php echo Form::dbSelect('ciudadano.serviciosalud','servicio',array('salud','listar'),'SELECCIONE','class="form-control selectpicker" data-live-search="true"', isset($ciudadano)?$ciudadano->salud_id:''); ?>
+	                	</div>
+	                	<div class="col-md-3">
+	                		<label>Servicio drenaje</label>
+	                		<select class="form-control" name="ciudadano[serviciodrenaje]">
+	                			<option value="N" <?php echo isset($ciudadano)? ($ciudadano->serviciodrenaje=='N'?'selected':'') : '' ?>>NO</option>
+	                			<option value="S" <?php echo isset($ciudadano)? ($ciudadano->serviciodrenaje=='S'?'selected':'') : '' ?>>SI</option>
+	                		</select>
+	                	</div>              
+	                	<div class="col-md-3">
+	                		<label>Servicio energia</label>
+	                		<select class="form-control" name="ciudadano[servicioenergia]">
+	                			<option value="N" <?php echo isset($ciudadano)? ($ciudadano->servicioenergia=='N'?'selected':'') : '' ?>>NO</option>
+	                			<option value="S" <?php echo isset($ciudadano)? ($ciudadano->servicioenergia=='S'?'selected':'') : '' ?>>SI</option>
+	                		</select>
+	                	</div>
+	                	<input type="text" name="ciudadano[usuario]" value="<?php echo $usuario = Session::get('id') ?>" hidden>                	  	
+	                </div>
+		            <div class="box-footer">
+	                    <div class="col-md-12 botones">                
+                            <a href="<?php echo PUBLIC_PATH.'index/index/'?>" class="btn btn-danger btn-lg  pull-right">Cancelar</a>
+	                        <button class="btn btn-lg btn-success btn-flat pull-right boton">Guardar</button>
+	                    </div>
+	                </div>
+	            </div>
+	        <?php echo Form::close() ?>
+        </div>
+    </div>
+</div>
+
+<?php echo Tag::js('formularios/formulariosciudadanos') ?>
+<style>
+.complemento{
+    background: #CDECF3;
+ }   
+</style>

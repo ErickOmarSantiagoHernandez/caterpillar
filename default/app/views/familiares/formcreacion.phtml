@@ -1,0 +1,105 @@
+<?php echo view::content() ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            <h2 class="text-red col-md-12">FAMILIARES</h2>
+            <?php echo Form::open("familiares/formcreacion/".$ciudadano->id,'post') ?>
+	            <div class="box-body">
+	                <div class="row">
+	                	<div class="col-md-4 form-group">
+	                		<label>Nombre</label>
+	                		<input class="form-control mayuscula" type="text" name="familiar[nombre]" value="<?php echo isset($familiar)?$familiar->nombre:'' ?>" required>
+	                	</div>
+	                	<input type="text" name="idfamiliar" value="<?php echo isset($familiar)?$familiar->id:'' ?>" hidden>
+	                	<div class="col-md-4 form-group">
+	                		<label>Apellido paterno</label>
+	                		<input class="form-control mayuscula" type="text" name="familiar[paterno]" value="<?php echo isset($familiar)?$familiar->paterno:'' ?>">
+	                	</div>
+	                	<div class="col-md-4 form-group">
+	                		<label>Apellido materno</label>
+	                		<input class="form-control mayuscula" type="text" name="familiar[materno]" value="<?php echo isset($familiar)?$familiar->materno:'' ?>">
+	                	</div>
+	                	<div class="col-md-3 form-group">
+	                		<label>Parentesco</label>
+	                		<?php echo Form::dbSelect('familiar.parentesco','parentesco',array('parentescos','listar'),'SELECCIONE','class="form-control selectpicker" data-live-search="true" required',isset($familiar)?$familiar->parentescos_id:''); ?>
+	                	</div>
+	                	<div class="col-md-3 form-group">
+	                		<label>Fecha nacimiento</label>
+	                		<input class="form-control calendario" name="familiar[fechanacimiento]" value="<?php echo isset($familiar)?($familiar->fechanacimiento!=null)?date_format(date_create($familiar->fechanacimiento),'d-m-Y'):'':'';  ?>">
+	                	</div>
+	                	<div class="col-md-3 form-group">
+	                		<label>Estado civil</label>
+	                		<?php echo Form::dbSelect('familiar.estadocivil','estado',array('edociviles','listar'),'SELECCIONE','class="form-control age-selectpicker"', isset($familiar)?$familiar->edociviles_id:''); ?>
+	                	</div>
+	                	<div class="col-md-3 form-group">
+	                		<label>Sexo</label>
+	                		<select class="form-control" name="familiar[sexo]" required>
+	                			<option value="" <?php echo isset($familiar)?($familiar->sexo==''?'selected':''):''?> >SELECCIONE</option>
+	                			<option value="M" <?php echo isset($familiar)?($familiar->sexo=='M'?'selected':''):''?> >MASCULINO</option>
+	                			<option value="F"  <?php echo isset($familiar)?($familiar->sexo=='F'?'selected':''):''?> >FEMENINO</option>
+	                		</select>
+	                	</div>	                	
+	                	<div class="col-md-3 form-group">
+	                		<label>Ocupacion</label>
+	                		<input class="form-control mayuscula" type="text" name="familiar[ocupacion]" value="<?php echo isset($familiar)?$familiar->ocupacion:'' ?>">
+	                	</div>
+	                	<div class="col-md-3">
+	                		<label>Reside en la población</label>
+	                		<select class="form-control" name="familiar[resideenpoblacion]" id="resi" >
+	                			<option value="1" <?php echo isset($familiar)? ($familiar->resideenpoblacion=='1'?'selected':'') : '' ?>>NO</option>
+	                			<option value="2" <?php echo isset($familiar)? ($familiar->resideenpoblacion=='2'?'selected':'') : '' ?>>SI</option>
+	                		</select>
+	                	</div>  
+	                	<div class="col-md-3">
+	                		<label>Fecha de no residir</label>
+	                		<input class="form-control calendario" type="text" name="familiar[fechadenoresidir]" value="<?php echo isset($familiar)?($familiar->fechadenoresidir!=null)?date_format(date_create($familiar->fechadenoresidir),'d-m-Y'):'':'';  ?>" id="fecharesi" readonly>
+	                	</div>
+	                    <div class="col-md-12 botones">                
+                            <a href="<?php echo PUBLIC_PATH.'ciudadanos/formcreacion/'.$ciudadano->id?>" class="btn btn-danger btn-lg  pull-right">Cancelar</a>
+	                        <button class="btn btn-lg btn-success btn-flat pull-right boton">Guardar Familiar</button>
+	                    </div>
+	                </div>
+	            </div>
+	        <?php echo Form::close() ?>
+	    </div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-red">
+            <h2 class="text-red col-md-12">Lista de familiares</h2>
+            <div class="box-body">
+                <div class="row">
+                	<div class="col-md-12">
+                		<div class="table-responsive">
+						  <table class="table">
+						  	<thead>
+						  		<tr>
+									<th>Nombre</th>
+									<th>Parentesco</th>
+									<th>Ocupacion</th>
+									<th>Editar</th>
+									<th>Eliminar</th>
+								</tr>
+							</thead>
+							 <tbody>
+							 	<?php foreach ($ciudadano->getFamiliares() as $key => $value): ?>
+							 		<tr class="info">
+							 			<td><?php echo $value->getNombre() ?></td>
+							 			<td><?php echo ($value->parentescos_id!=null)?$value->getParentescos()->parentesco:'' ?></td>
+							 			<td><?php echo $value->ocupacion ?></td>
+							 			<td><span class="badge bg-yellow"><a href="<?php echo PUBLIC_PATH.'familiares/formcreacion/'.($ciudadano->id).'/'.($value->id)?>"><i class="fa fa-pencil"></i></a></span></td>
+							 			<td><span class="badge bg-red"><a href="<?php echo PUBLIC_PATH.'familiares/eliminar/'.($ciudadano->id).'/'.($value->id)?>"><i class="glyphicon glyphicon-remove-circle"></i></a></span></td>
+							 		</tr>
+							 	<?php endforeach ?>
+							 </tbody>
+						  </table>
+						</div>
+                	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo Tag::js('formularios/formulariosfam'); ?>

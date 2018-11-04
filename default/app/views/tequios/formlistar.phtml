@@ -1,0 +1,65 @@
+<?php View::content() ?>
+<link href="<?php echo PUBLIC_PATH ?>css/plugins/dataTables.bootstrap.css"  rel="stylesheet" type="text/css">
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="box box-success" >
+    <h2 class="text-red col-md-12">TEQUIOS</h2>      
+      <div class="box-header">
+        <h3><?php echo $ciudadano->nombre.' '.$ciudadano->paterno.' '.$ciudadano->materno ?></h3>        
+        <h4>Fecha casado <?php echo $ciudadano->fechacasado ?></h4>
+    	<h4>Fecha predio <?php echo $ciudadano->fechapredio ?></h4>
+    	<h4>Fecha ciudadano <?php echo $ciudadano->fechaciudadano ?></h4>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="row"> 
+            <div class="col-md-12 col-lg-12 small"> 
+            	<table class="table table-hover table-striped table-condensed" id="tabla_tequios">
+            		<thead>
+            			<th>Tequio</th>
+            			<th>Fecha Tequio</th>
+            			<th>Asistio</th>
+            			<th>Descripcion</th>
+            			<th>Organiza</th>
+                  <th>Activo</th>
+            		</thead>
+            		<tbody>
+	                <?php $tequios= Load::model('tequios')->listar($ciudadano->fechacasado,$ciudadano->fechapredio,$ciudadano->fechaciudadano) ?>  
+	                        <?php foreach ($tequios as $key => $value): ?>
+	                                <?php $listar=load::model('tequiociudadano')->find_by_sql('select id,asistio from tequiociudadano where ciudadanos_id = '.$ciudadano->id.' and asistio = "S" and tequios_id ='.$value->id); ?>
+	                                    <?php if ($listar->id!=null) : ?>
+	                                    <tr>
+	                                    	<th><?php echo $value->tipo ?></th>
+	                                    	<th><?php echo $value->fechatequio ?></th>
+	                                    	<th><?php echo ($listar->asistio)?'SI':'' ?></th>
+	                                    	<th><?php echo $value->descripcion ?></th>
+	                                    	<th><?php echo $value->organiza ?></th>
+                                        <th><?php echo $value->activo ?></th>
+	                                    </tr>
+	                                    <?php else :?>
+	                                    <tr class="warning">
+	                                    	<th><?php echo $value->tipo ?></th>
+	                                    	<th><?php echo $value->fechatequio ?></th>
+	                                    	<th>NO</th>
+	                                    	<th><?php echo $value->descripcion ?></th>
+	                                    	<th><?php echo $value->organiza ?></th>
+                                        <th><?php echo $value->activo ?></th>
+	                                    </tr>
+	                                    <?php endif ?>
+	                        <?php endforeach ?>
+	                        <input type="hidden" name="idtequio" value="<?php echo isset($ciudadano)?$ciudadano->id:'' ?>">            			
+            		</tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<?php echo Tag::js('formularios/formulariotequio') ?>
+<?php echo Tag::js('plugins/datatables/jquery.dataTables.min'); ?>
+<?php echo Tag::js('plugins/datatables/dataTables.bootstrap.min'); ?>
+

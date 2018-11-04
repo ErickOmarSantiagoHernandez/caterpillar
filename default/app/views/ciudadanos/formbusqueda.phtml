@@ -1,0 +1,57 @@
+<?php echo view::content() ?>
+<link href="<?php echo PUBLIC_PATH ?>css/plugins/dataTables.bootstrap.css"  rel="stylesheet" type="text/css">
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="box box-success" >
+      <div class="box-header">
+        <h3 class="text-navy">Todos los Ciudadanos</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 small">
+            <table class="table table-hover table-striped table-condensed" id="tabla_tequios">
+              <thead>
+                <th>Nombre</th>
+                <th>Fecha nacimiento</th>
+                <th>Edad</th>
+                <th>Calle</th>
+                <th>Numero</th>
+                <th>Sexo</th>
+                <th>Estado civil</th>
+                <th>Editar</th>
+              </thead>
+              <tbody>
+              	<?php $ciudadanos=Load::model('ciudadanos')->find('activo = "S" ORDER BY paterno asc') ?>
+                <?php foreach ($ciudadanos as $key): ?>
+                  <tr>
+                    <?php $aniofec =  $key->fechanacimiento; ?>
+                    <?php $str = str_replace("-", "", $aniofec); ?>
+                    <?php $anio = substr($str, 0, 4);  ?>
+                    <?php $anioact=date("Y"); ?>
+                    <?php $edad = ($anioact-$anio )?>
+                  	<td><?php echo $key->getNombre() ?></td> 
+                  	<td><?php echo $key->fechanacimiento ?></td>
+                    <td><?php echo ($edad<130)?$edad:'' ?></td>
+                  	<td><?php echo $key->calledomicilio ?></td>
+                  	<td><?php echo $key->numerodomicilio ?></td>
+                  	<td><?php echo $key->sexo ?></td>
+                    <td><?php echo ($key->edociviles_id!=null)?$key->getEdociviles()->estado:'' ?></td>
+                    <td><a href="<?php echo PUBLIC_PATH.'ciudadanos/formvista/'.$key->id?>"><i class="fa fa-pencil text-yellow"></i></a></td>
+                  </tr>
+                <?php endforeach ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<?php echo Tag::js('formularios/formulariotequio') ?>
+<?php echo Tag::js('formularios/formulariociudadano') ?>
+<?php echo Tag::js('plugins/datatables/jquery.dataTables.min'); ?>
+<?php echo Tag::js('plugins/datatables/dataTables.bootstrap.min'); ?>

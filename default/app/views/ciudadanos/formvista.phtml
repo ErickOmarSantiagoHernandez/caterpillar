@@ -1,0 +1,98 @@
+<?php echo view::content() ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            <h2 class="text-red col-md-12">CIUDADANOS</h2>
+            <?php echo Form::open("ciudadanos/formcreacion/".$ciudadano->id,'post') ?>
+	            <div class="box-body">
+	                <div class="row">
+	                	<div class="col-md-12 form-group">
+	                		<label>Nombre : <?php echo isset($ciudadano)?$ciudadano->getNombre():'' ?> </label>
+                            
+	                	</div>
+	                	<div class="col-md-6 form-group">
+							<label>Fecha nacimiento : <?php echo ($ciudadano->fechanacimiento!=null)?$ciudadano->fechanacimiento:'' ?> </label>
+                        </div>
+                        <?php $aniofec =  $ciudadano->fechanacimiento; ?>
+                        <?php $str = str_replace("-", "", $aniofec); ?>
+                        <?php $anio = substr($str, 0, 4);  ?>
+                        <?php $anioact=date("Y"); ?>
+                        <?php $edad = ($anioact-$anio )?>
+                        <div class="col-md-6 form-group">
+                            <label>Edad : <? echo $edad?></label>
+                        </div>
+	                	<div class="col-md-12 form-group">
+	                		<label>Lugar nacimiento : <?php echo isset($ciudadano)?$ciudadano->lugarnacimiento:'' ?></label>
+	                	</div>
+	                	<div class="col-md-6 form-group">
+	      					 <label>Calle domicilio : <?php echo isset($ciudadano)?$ciudadano->calledomicilio:'' ?></label>         		
+	                	</div>
+	                	<div class="col-md-6 form-group">
+	                		<label>Numero : <?php echo isset($ciudadano)?$ciudadano->numerodomicilio:'' ?> </label>
+	                	</div>
+	                	<div class="col-md-12 form-group">
+	                		<label>Residencia : <?php echo isset($ciudadano)?$ciudadano->residencia:'' ?></label>
+	                	</div>
+	                	<div class="col-md-6 form-group">
+	                		<label>Sexo : <?php echo ($ciudadano->sexo=='M')?'MASCULINO':'FEMENICO'; ?></label>
+	                	</div>
+	                	<div class="col-md-6 form-group">
+	                		<label>Lengua Materna : <?php echo ($ciudadano->dialectos_id!=null)?$ciudadano->getDialectos()->dialecto:'' ?></label>
+	                	</div>
+	                	<div class="col-md-4 form-group">
+	                		<label>Ocupacion : <?php echo isset($ciudadano)?$ciudadano->ocupacion:'' ?> </label>
+	                	</div>
+	                	<div class="col-md-4 form-group">
+	                		<label>Grado de estudios : <?php echo ($ciudadano->escolaridades_id!=null)?$ciudadano->getEscolaridades()->escolaridad:'' ?></label>
+	                	</div>
+	                	<div class="col-md-4 form-group">
+	                		<label>Estado civil : <?php echo ($ciudadano->edociviles_id!=null)?$ciudadano->getEdociviles()->estado:'' ?></label>
+	                	</div>
+                            <div class="col-md-3 form-group">
+                                <label>Fecha casado : <?php echo ($ciudadano->fechacasado!=null)?$ciudadano->fechacasado:'' ?></label>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label>Fecha ciudadano : <?php echo ($ciudadano->fechaciudadano!=null)?$ciudadano->fechaciudadano:'' ?></label>
+                            </div>
+                            <div class="col-md-5 form-group">
+                                <label>Fecha de adquisicion de predio : <?php echo ($ciudadano->fechapredio!=null)?$ciudadano->fechapredio:'' ?></label>
+                            </div>
+	                	<div class="col-md-3 form-group">
+	                		<label>Servicio agua : <?php echo ($ciudadano->servicioagua=='1')?'SI':'NO' ?></label>
+	                	</div>
+	                	<div class="col-md-9 form-group">
+	                		<label>Nombre del responsable de la toma de agua : <?php echo ($ciudadano->nombretomaagua!=null)?$ciudadano->nombretomaagua:'' ?></label>
+	                	</div>
+	                  	<div class="col-md-3 form-group">
+                            <label>Servicio panteon : <?php echo ($ciudadano->serviciopanteon=='1')?'SI':'NO' ?></label>                          
+	                	</div>
+	                  	<div class="col-md-9 form-group">
+	                		<label>Nombre del responsable panteón : <?php echo ($ciudadano->nombreresponsable!=null)?$ciudadano->nombreresponsable:''?></label>
+	                	</div>
+	                	<div class="col-md-12  form-group">
+	                		<label>Servicio salud : <?php echo ($ciudadano->salud_id!=null)?$ciudadano->getSalud()->servicio:'' ?></label>
+	                	</div>
+	                	<div class="col-md-12  form-group">
+	                		<label>Servicio drenaje <?php echo ($ciudadano->serviciodrenaje=='S')?'SI':'NO'?></label>
+	                	</div>              
+	                	<div class="col-md-12  form-group">
+	                		<label>Servicio energia <?php echo ($ciudadano->servicioenergia=='S')?'SI':'NO'?></label>                            
+	                	</div>
+	                </div>
+		            <div class="box-footer">
+	                    <div class="col-md-12 botones">                
+                            <a href="<?php echo PUBLIC_PATH.'index/index/'?>" class="btn btn-danger btn-lg  pull-right">Cancelar</a>
+	                    </div>
+	                </div>
+	            </div>
+	        <?php echo Form::close() ?>
+        </div>
+    </div>
+</div>
+
+<?php echo Tag::js('formularios/formulariosciudadanos') ?>
+<style>
+.complemento{
+    background: #CDECF3;
+ }   
+</style>

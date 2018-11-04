@@ -1,0 +1,90 @@
+<?php echo view::content() ?>
+<link href="<?php echo PUBLIC_PATH ?>css/plugins/dataTables.bootstrap.css"  rel="stylesheet" type="text/css">
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            <h2 class="text-red col-md-12">Registrar Cooperacion </h2>
+            <?php echo Form::open("cooperaciones/formcreacion/".$cooperacion->id,'post') ?>
+	            <div class="box-body">
+	            	<div class="col-md-12">
+		                <div class="row">
+		                	<div class="col-md-5 form-group">
+		                		<label>Tipo</label>
+		                		<input class="form-control mayuscula" type="text" name="cooperacion[tipo]" value="<?php echo isset($cooperacion)?$cooperacion->tipo:'' ?>" required >
+		                	</div>
+		                </div>
+		                <div class="row">
+		                	<div class="col-md-12 form-group">
+		                		<label>Descripcion</label>
+		                		<textarea class="form-control mayuscula" type="text" name="cooperacion[descripcion]"><?php echo isset($cooperacion)?$cooperacion->descripcion:'' ?></textarea> 
+		                	</div>
+		                	<div class="col-md-4 form-group">
+		                		<label>Organiza</label>
+		                		<input class="form-control mayuscula" type="text" name="cooperacion[organiza]" value="<?php echo isset($cooperacion)?$cooperacion->organiza:'' ?>" required>
+		                	</div>
+		                	<div class="col-md-3 form-group">
+		                		<label>Fecha cooperacion</label>
+		                		<input class="form-control calendario" type="text" name="cooperacion[fecha]"  value="<?php echo ($cooperacion->fechacooperacion!=null)?date_format(date_create($cooperacion->fechacooperacion),'d-m-Y'):'';  ?>"  required <?php echo ($cooperacion->fechacooperacion!=null)?"readonly":'' ?>>
+		                	</div>
+                      <div class="col-md-5 form-group">
+                        <label>Cantidad de la cooperación</label>
+                        <input class="form-control" type="number" name="cooperacion[cantidad]" value="<?php echo isset($cooperacion)?$cooperacion->cantidad:'' ?>" required >                     
+                      </div>
+			                <div class="box-footer">
+			                    <div class="col-md-12 botones">                
+                              <a href="<?php echo PUBLIC_PATH.'index/index/'?>" class="btn btn-danger btn-lg  pull-right">Salir</a>
+			                        <button class="btn btn-lg btn-success btn-flat pull-right boton">Guardar</button>
+			                    </div>
+			                </div>
+		                </div>
+		            </div>
+	            </div>
+	        <?php echo Form::close() ?>
+	    </div>
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="box box-success" >
+      <div class="box-header">
+        <h3 class="text-navy">Todas las cooperaciones</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 small">
+            <table class="table table-hover table-striped table-condensed" id="tabla_tequios">
+              <thead>
+                <th>Tipo</th>
+                <th>Organizador</th>
+                <th>Fecha de cooperacion</th>
+                <th>Activo</th>
+                <th>Fecha creación</th>
+              </thead>
+              <tbody>
+              	<?php $cooperaciones=Load::model('cooperaciones')->find('fechacreacion IS NOT NULL and tipo IS NOT NULL and fechacooperacion IS NOT NULL') ?>
+                <?php foreach ($cooperaciones as $key): ?>
+                  <tr>
+                  	<td><?php echo $key->tipo ?></td> 
+                  	<td><?php echo $key->organiza ?></td>
+                  	<td><?php echo $key->fechacooperacion ?></td>
+                  	<td><?php echo $key->activo ?></td>
+                  	<td><?php echo $key->fechacreacion ?></td>
+                  </tr>
+                <?php endforeach ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php echo Tag::js('formularios/formulariotequio') ?>
+<?php echo Tag::js('plugins/datatables/jquery.dataTables.min'); ?>
+<?php echo Tag::js('plugins/datatables/dataTables.bootstrap.min'); ?>

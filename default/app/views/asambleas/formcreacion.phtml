@@ -1,0 +1,86 @@
+<?php echo view::content() ?>
+<link href="<?php echo PUBLIC_PATH ?>css/plugins/dataTables.bootstrap.css"  rel="stylesheet" type="text/css">
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            <h2 class="text-red col-md-12">Registrar Asamblea </h2>
+            <?php echo Form::open("asambleas/formcreacion/".$asamblea->id,'post') ?>
+	            <div class="box-body">
+	            	<div class="col-md-12">
+		                <div class="row">
+		                	<div class="col-md-5 form-group">
+		                		<label>Tipo</label>
+		                		<input class="form-control mayuscula" type="text" name="asamblea[tipo]" value="<?php echo isset($asamblea)?$asamblea->tipo:'' ?>" required >
+		                	</div>
+		                </div>
+		                <div class="row">
+		                	<div class="col-md-12 form-group">
+		                		<label>Descripcion</label>
+		                		<textarea class="form-control mayuscula" type="text" name="asamblea[descripcion]"><?php echo isset($asamblea)?$asamblea->descripcion:'' ?></textarea> 
+		                	</div>
+		                	<div class="col-md-4 form-group">
+		                		<label>Organiza</label>
+		                		<input class="form-control mayuscula" type="text" name="asamblea[organiza]" value="<?php echo isset($asamblea)?$asamblea->organiza:'' ?>" required>
+		                	</div>
+		                	<div class="col-md-3 form-group">
+		                		<label>Fecha asamblea</label>
+		                		<input class="form-control calendario" type="text" name="asamblea[fecha]"  value="<?php echo ($asamblea->fechaasamblea!=null)?date_format(date_create($asamblea->fechaasamblea),'d-m-Y'):'';  ?>"  required <?php echo ($asamblea->fechaasamblea!=null)?"readonly":'' ?>>
+		                	</div>
+			                <div class="box-footer">
+			                    <div class="col-md-12 botones">                
+                              <a href="<?php echo PUBLIC_PATH.'index/index'?>" class="btn btn-danger btn-lg  pull-right">Salir</a>
+			                        <button class="btn btn-lg btn-success pull-right boton">Guardar</button>
+			                    </div>
+			                </div>
+		                </div>
+		            </div>
+	            </div>
+	        <?php echo Form::close() ?>
+	    </div>
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="box box-success" >
+      <div class="box-header">
+        <h3 class="text-navy">Todas las Asambleas</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 small">
+            <table class="table table-hover table-striped table-condensed" id="tabla_tequios">
+              <thead>
+                <th>Tipo</th>
+                <th>Organizador</th>
+                <th>Fecha de asamblea</th>
+                <th>Activo</th>
+                <th>Fecha creación</th>
+              </thead>
+              <tbody>
+              	<?php $asambleas=Load::model('asambleas')->find('fechacreacion IS NOT NULL and tipo IS NOT NULL and fechaasamblea IS NOT NULL') ?>
+                <?php foreach ($asambleas as $key): ?>
+                  <tr>
+                  	<td><?php echo $key->tipo ?></td> 
+                  	<td><?php echo $key->organiza ?></td>
+                  	<td><?php echo $key->fechaasamblea ?></td>
+                  	<td><?php echo $key->activo ?></td>
+                  	<td><?php echo $key->fechacreacion ?></td>
+                  </tr>
+                <?php endforeach ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php echo Tag::js('formularios/formulariotequio') ?>
+<?php echo Tag::js('plugins/datatables/jquery.dataTables.min'); ?>
+<?php echo Tag::js('plugins/datatables/dataTables.bootstrap.min'); ?>
